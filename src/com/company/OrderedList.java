@@ -46,30 +46,23 @@ public class OrderedList<T>
     public void add(T value)
     {
         Node newNode = new Node(value);
-        /*Node after;
-        Node before;
-        if(head == null){   //если список пустой, новый узел становится головой и хвостом
-            head = newNode;
-            tail = newNode;
-        }
-        */
         // автоматическая вставка value
         // в нужную позицию
-
         if(head == null){       //если список пустой, новый узел становится его головой и хвостом
             head = newNode;
-        }else if(compare(value, head.value)== -1 && _ascending){        //если новый узел меньше головы и списк возрастающий, новый ставится перед головой
-            newNode.next = head;
+            tail = newNode;
+        }else if((compare(value, head.value)== -1 && _ascending ) || (compare(value, head.value)== 1 && !_ascending)){        //если новый узел меньше головы и списк возрастающий, новый ставится перед головой
+            newNode.next = head;                                                                                              //если новый узел больше и список убывающий, новый становится перед головой
+            head.prev = newNode;
             head = newNode;
-        }else if(compare(value, head.value)== 1 && !_ascending){        //если новый узел больше и список убывающий, новый становится перед головой
-            newNode.next = head;
-            head = newNode;
+        }else if((compare(value, tail.value) == 1 &&  _ascending) || (compare(value, tail.value) == -1 && !_ascending)){
+            newNode.prev = tail;
+            tail.next = newNode;
+            tail = newNode;
         }
         else{
-
             Node<T> after = head.next;
             Node<T> before = head;
-
             while(after!= null){
                 if(_ascending){
                     if (compare(value, after.value) == -1)
@@ -81,6 +74,11 @@ public class OrderedList<T>
                 before = after;
                 after = after.next;
             }
+            /*newNode.next = after.next;
+            after.next.prev = newNode;
+            after.next = newNode;
+            newNode.prev = after;*/
+
             newNode.next = before.next;
             before.next = newNode;
         }
@@ -88,37 +86,80 @@ public class OrderedList<T>
 
     public Node<T> find(T val)
     {
-        return null; // здесь будет ваш код
+
+        Node tmp = head;
+        while(tmp!= null && tmp.value != val){
+            tmp = tmp.next;
+        }
+        return tmp;
+        // здесь будет ваш код
     }
 
     public void delete(T val)
     {
+        if(head == tail){
+            head = null;
+            tail = null;
+        }else if(tail.value == val){
+            tail = tail.prev;
+            tail.next = null;
+        }else if(head.value == val){
+            head = head.next;
+            head.prev = null;
+        }else{
+            Node key = find(val);
+            if(key == null){
+            }else{
+                key.prev.next = key.next;
+                key.next.prev = key.prev;
+            }
+        }
         // здесь будет ваш код
     }
 
     public void clear(boolean asc)
     {
         _ascending = asc;
+        head = null;
+        tail = null;
         // здесь будет ваш код
     }
 
     public int count()
     {
-        return 0; // здесь будет ваш код подсчёта количества элементов в списке
+        Node temp = head;
+        int count = 0;
+        while (temp != null)
+        {
+            count++;
+            temp = temp.next;
+        }
+        return count;
+        // здесь будет ваш код подсчёта количества элементов в списке
     }
 
-    public void log(){
+    public boolean log(){
 
         Node tmp = head;
+        boolean bool;
         if(head == null){
             System.out.println("empty list");
+            bool = false;
         }else{
+            bool = true;
             while(tmp != null){
                 System.out.print(tmp.value+" ");
                 tmp = tmp.next;
             }
         }
         System.out.println();
+        return bool;
+    }
+    public void logStat(){
+        if(log()){
+            System.out.println("head " + head.value);
+            System.out.println("tail " + tail.value);
+        }
     }
 
     ArrayList<Node<T>> getAll() // выдать все элементы упорядоченного
