@@ -61,26 +61,24 @@ public class OrderedList<T>
             tail = newNode;
         }
         else{
-            Node<T> after = head.next;
-            Node<T> before = head;
-            while(after!= null){
+            Node<T> after = head;
+            Node<T> before = head.next;
+            while(before.next!= null){
                 if(_ascending){
-                    if (compare(value, after.value) == -1)
+                    if (compare(value, after.value) == 1 && compare(value, before.value) == -1)   //value > after.value   value < before
                         break;
                 }else{
-                    if (compare(value, after.value) == 1)
+                    if (compare(value, after.value) == -1 && compare(value, before.value) == 1)  //value < after.value      value > before
                         break;
                 }
-                before = after;
-                after = after.next;
+                after = before;
+                before = before.next;
             }
-            /*newNode.next = after.next;
-            after.next.prev = newNode;
+            //System.out.println("adding " + value + " after "+ after.value + " before "+ before.value);
+            newNode.next = before;
+            newNode.prev = after;
             after.next = newNode;
-            newNode.prev = after;*/
-
-            newNode.next = before.next;
-            before.next = newNode;
+            before.prev = newNode;
         }
     }
 
@@ -155,6 +153,23 @@ public class OrderedList<T>
         System.out.println();
         return bool;
     }
+    public boolean logBack(){
+        Node tmp = tail;
+        boolean bool;
+        if(tail == null){
+            System.out.println("empty list");
+            bool = false;
+        }else{
+            bool = true;
+            while(tmp != null){
+                System.out.print(tmp.value+" ");
+                tmp = tmp.prev;
+            }
+        }
+        System.out.println();
+        return bool;
+    }
+
     public void logStat(){
         if(log()){
             System.out.println("head " + head.value);
