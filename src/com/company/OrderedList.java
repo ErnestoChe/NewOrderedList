@@ -36,8 +36,15 @@ public class OrderedList<T>
             }else if(((Integer) v1).intValue()>((Integer) v2).intValue()){
                 return 1;
             }else return 0;
-        }else return 0;
-        //return 0;
+        }else
+        if(v1 instanceof String && v2 instanceof String){
+            if(v1.toString().equals(v2.toString())){
+                return 0;
+            }else if(v1.toString().compareTo(v2.toString()) > 0){
+                return 1;
+            }else return 0;
+        }else
+        return 0;
         // -1 если v1 < v2
         // 0 если v1 == v2
         // +1 если v1 > v2
