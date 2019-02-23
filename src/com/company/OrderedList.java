@@ -153,6 +153,17 @@ public class OrderedList<T>
         System.out.println();
         return bool;
     }
+
+    public void logNode(){
+        Node tmp = head.next;
+        System.out.println("h "+ head.value + " " + head.next.value);
+        while(tmp!=tail){
+            System.out.println(tmp.prev.value + " " + tmp.value + " " + tmp.next.value);
+            tmp = tmp.next;
+        }
+        System.out.println(tail.prev.value + " " + tail.value + " t");
+    }
+
     public boolean logBack(){
         Node tmp = tail;
         boolean bool;

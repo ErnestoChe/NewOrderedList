@@ -9,12 +9,15 @@ public class Main {
         OrderedList<Integer> ol = new OrderedList<>(true);
         ol.add(1);
         ol.add(3);
-        ol.add(5);
+        ol.add(2);
         ol.add(5);
         ol.add(7);
         ol.add(4);
+        ol.add(-1);
+        ol.add(9);
         ol.logStat();
-        ol.logBack();
+        //ol.logBack();
+        ol.logNode();
         System.out.println("head.next = "+ ol.head.next.value);
         System.out.println("tail.prev = "+ ol.tail.prev.value);
 
@@ -25,6 +28,5 @@ public class Main {
         if(ol.tail.next == null){
             System.out.println("null");
         }else System.out.println("mistake" + ol.tail.next.value);
-
     }
 }
