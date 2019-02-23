@@ -51,11 +51,11 @@ public class OrderedList<T>
         if(head == null){       //если список пустой, новый узел становится его головой и хвостом
             head = newNode;
             tail = newNode;
-        }else if((compare(value, head.value)== -1 && _ascending ) || (compare(value, head.value)== 1 && !_ascending)){        //если новый узел меньше головы и списк возрастающий, новый ставится перед головой
+        }else if(((compare(value, head.value)== -1 || compare(value, head.value) == 0) && _ascending) || ((compare(value, head.value)== 1 || compare(value, head.value) == 0) && !_ascending)){        //если новый узел меньше головы и списк возрастающий, новый ставится перед головой
             newNode.next = head;                                                                                              //если новый узел больше и список убывающий, новый становится перед головой
             head.prev = newNode;
             head = newNode;
-        }else if((compare(value, tail.value) == 1 &&  _ascending) || (compare(value, tail.value) == -1 && !_ascending)){
+        }else if(((compare(value, tail.value) == 1 || compare(value, tail.value) == 0)&&  _ascending) || ((compare(value, tail.value) == -1 || compare(value, tail.value) == 0) && !_ascending)){
             newNode.prev = tail;
             tail.next = newNode;
             tail = newNode;
@@ -65,10 +65,10 @@ public class OrderedList<T>
             Node<T> before = head.next;
             while(before.next!= null){
                 if(_ascending){
-                    if (compare(value, after.value) == 1 && compare(value, before.value) == -1)   //value > after.value   value < before
+                    if ((compare(value, after.value) == 1 || compare(value, after.value) == 0)&& compare(value, before.value) == -1)   //value > after.value   value < before
                         break;
                 }else{
-                    if (compare(value, after.value) == -1 && compare(value, before.value) == 1)  //value < after.value      value > before
+                    if ((compare(value, after.value) == -1 || compare(value, after.value) == 0)&& compare(value, before.value) == 1)  //value < after.value      value > before
                         break;
                 }
                 after = before;
